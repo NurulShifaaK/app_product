@@ -22,7 +22,7 @@ password:{
 },
 role: {
   type: String,
-  enum: ["USER", "ADMIN", "SUPERADMIN"],   // Only these allowed
+  enum: ["USER", "ADMIN", "SUPERADMIN"],   
   default: "USER",
 },
 
