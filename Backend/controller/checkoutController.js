@@ -37,7 +37,8 @@ export const addcheckout = async (req, res) => {
     await Cart.findOneAndDelete({ userid });
 
 
-
+// console.log("Email function triggered");
+// console.log("Sending to:", personalDetails.email);
    sendEmail(
       personalDetails.email,
       "Order Confirmation 🛒",
