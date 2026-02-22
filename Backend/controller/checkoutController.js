@@ -1,5 +1,6 @@
 import Checkout from "../model/checkoutModel.js";
 import Cart from "../model/cartModel.js";
+import { sendEmail } from "../utils/sendEmail.js";
 export const addcheckout = async (req, res) => {
   try {
     const {
@@ -35,10 +36,32 @@ export const addcheckout = async (req, res) => {
 
     await Cart.findOneAndDelete({ userid });
 
+
+
+   sendEmail(
+      personalDetails.email,
+      "Order Confirmation 🛒",
+      `Hi ${personalDetails.firstName},
+
+Your order has been placed successfully!
+
+Order ID: ${newcheckout._id}
+Total Amount: ₹${total}
+
+Shipping Address:
+${shippingAddress.street},
+${shippingAddress.city},
+${shippingAddress.state} - ${shippingAddress.pincode}
+
+Thank you for shopping with us 💙`
+    ).catch(err => console.log("Email error:", err));
+
+  
     res.status(201).json({
       success: true,
       newcheckout,
     });
+
 
   } catch (err) {
     res.status(400).json({
@@ -111,3 +134,7 @@ export const getAllOrders = async (req, res) => {
     });
   }
 };
+
+
+
+
