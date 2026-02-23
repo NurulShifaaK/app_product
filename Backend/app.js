@@ -4,6 +4,7 @@ import user from './routes/userRoute.js'
 import cart from './routes/cartRoute.js'
 import checkout from './routes/checkoutRoute.js'
 import payment from './routes/paymentRoute.js'
+import category from './routes/categoryRoute.js'
 import cors from "cors";
 import errorMiddleware from './middleware/error.js';
 const app=express();
@@ -18,6 +19,7 @@ app.use("/api/v1/",user);
 app.use("/api/v1/",cart);
 app.use("/api/v1/",checkout);
 app.use("/api/v1/",payment)
+app.use("/api/v1/",category)
 
 app.use(errorMiddleware);
 
