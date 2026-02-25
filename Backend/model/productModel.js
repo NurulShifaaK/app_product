@@ -39,7 +39,7 @@ const productSchema=new mongoose.Schema({
     },
     categoryType:{
         type:String,
-        required:[true,"please enter product category type"],    
+        // required:[true,"please enter product category type"],    
     },
     stock:{
         type:Number, 
@@ -55,15 +55,15 @@ const productSchema=new mongoose.Schema({
         {
             name:{
                 type:String,
-                required:true,
+               
             },
             rating:{
                 type:Number,
-                required:true,
+              
             },
             comment:{
                 type:String,
-                required:true,
+           
             }
         }
     ],
