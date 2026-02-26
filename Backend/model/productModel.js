@@ -37,10 +37,27 @@ const productSchema=new mongoose.Schema({
         type:String,
         required:[true,"please enter product category"],    
     },
-    categoryType:{
+    categorywears:{
         type:String,
-        // required:[true,"please enter product category type"],    
+        required:[true,"please enter product category wears"],    
     },
+    clothType:{
+        type:String,
+        required:[true,"please enter product cloth type"],    
+    },
+
+    colors:{
+     type:String,
+     required:[true,"please enter product colors"],
+     default:"Black",
+    },
+
+    sizes:{
+        type:String,
+        required:[true,"please enter product sizes"],
+        default:"54",
+    },
+
     stock:{
         type:Number, 
         required:[true,"please enter product stock"],

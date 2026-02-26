@@ -23,6 +23,7 @@ app.use("/api/v1/",payment)
 app.use("/api/v1/",category)
 app.use("/api/v1/",banner)
 
+
 app.use(errorMiddleware);
 
 export default app;
