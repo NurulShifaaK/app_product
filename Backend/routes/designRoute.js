@@ -6,9 +6,9 @@ const router = express.Router();
 
 
 // Public Route: Fetch filters for the sidebar/dropdowns
-router.route("/design/filters").get(getDesignFilters);
+router.route("/filters").get(getDesignFilters);
 
 // Admin Route: Add new design options (Materials, Styles, etc.)
-router.route("/admin/design/new").post(upload.single("wearsimage"),createDesignOption);
+router.route("/admin/filterupload").post(upload.single("wearsimage"),createDesignOption);
 
 export default router;

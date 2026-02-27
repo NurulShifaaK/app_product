@@ -7,22 +7,31 @@ export const createDesignOption = async (req, res) => {
     try {
         const { wearsname, clothname, colors } = req.body;
 
-        // With Multer .single('wearsimage'), the file is now in req.file (not req.files)
         if (!req.file) {
             return res.status(400).json({ success: false, message: "Please upload an image" });
         }
 
-        // Since you're using memoryStorage, we upload using the buffer
+        // Configuration (Make sure this is inside the controller or in a config file)
+        cloudinary.config({ 
+            cloud_name: process.env.CLOUD_NAME, 
+            api_key: process.env.CLOUD_API_KEY, 
+            api_secret: process.env.CLOUD_API_SECRET 
+        });
+
         const uploadToCloudinary = () => {
             return new Promise((resolve, reject) => {
-                const stream = cloudinary.v2.uploader.upload_stream(
+                // CHANGE THIS LINE: Remove the '.v2'
+                const stream = cloudinary.uploader.upload_stream(
                     { folder: "designs" },
                     (error, result) => {
-                        if (result) resolve(result);
-                        else reject(error);
+                        if (error) {
+                            console.error("Cloudinary Upload Stream Error:", error);
+                            return reject(error);
+                        }
+                        resolve(result);
                     }
                 );
-                stream.end(req.file.buffer); // Pass the buffer here
+                stream.end(req.file.buffer);
             });
         };
 
@@ -40,10 +49,11 @@ export const createDesignOption = async (req, res) => {
 
         res.status(201).json({ success: true, design });
     } catch (error) {
-        console.error("Multer/Cloudinary Error:", error);
+        console.error("Final Error Object:", error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
 
 // 2. Get All Design Options (For your Frontend Filters)
 export const getDesignFilters = async (req, res) => {

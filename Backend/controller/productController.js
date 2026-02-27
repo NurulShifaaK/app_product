@@ -741,9 +741,41 @@ export const deleteproduct = async (req, res, next) => {
 // ============================
 // GET PRODUCTS BY CATEGORY
 // ============================
+// export const getProductsByCategory = async (req, res, next) => {
+//   try {
+//     const { category } = req.query;
+
+//     if (!category) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Category is required",
+//       });
+//     }
+
+//     const products = await Product.find({ category });
+
+//     if (products.length === 0) {
+//       return next(
+//         new errorHandler(`No products found in category: ${category}`, 404)
+//       );
+//     }
+
+//     res.status(200).json({
+//       success: true,
+//       products,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+
+// ============================
+// GET PRODUCTS BY CATEGORY + FILTERS
+// ============================
 export const getProductsByCategory = async (req, res, next) => {
   try {
-    const { category } = req.query;
+    const { category, categorywears, clothType, colors } = req.query;
 
     if (!category) {
       return res.status(400).json({
@@ -752,18 +784,29 @@ export const getProductsByCategory = async (req, res, next) => {
       });
     }
 
-    const products = await Product.find({ category });
+    const filter = { category };
 
-    if (products.length === 0) {
-      return next(
-        new errorHandler(`No products found in category: ${category}`, 404)
-      );
+    if (categorywears) {
+      filter.categorywears = { $regex: categorywears, $options: "i" };
     }
+
+    if (clothType) {
+      filter.clothType = { $regex: clothType, $options: "i" };
+    }
+
+    if (colors) {
+      filter.colors = { $regex: colors, $options: "i" };
+    }
+
+
+
+    const products = await Product.find(filter);
 
     res.status(200).json({
       success: true,
       products,
     });
+
   } catch (error) {
     next(error);
   }
